@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Volleyball IQ Academy - Unit 1</title>
+<style>
+:root{--bg:#0d071b;--panel:#1d1037;--panel2:#2c1752;--ink:#fff;--muted:#d9d0ed;--p:#8b5cf6;--pink:#ec4899;--cyan:#22d3ee;--gold:#fbbf24;--green:#34d399;--red:#fb7185}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at top,#391867 0,#0d071b 38%);color:var(--ink);min-height:100vh}
+button,a{font:inherit} .wrap{max-width:1050px;margin:auto;padding:18px} .top{position:sticky;top:0;z-index:20;background:#0d071bea;backdrop-filter:blur(12px);border-bottom:1px solid #ffffff20}
+.topin{max-width:1050px;margin:auto;padding:10px 18px;display:flex;gap:14px;align-items:center} .brand{font-weight:1000;white-space:nowrap} .meter{height:11px;background:#ffffff18;border-radius:99px;overflow:hidden;flex:1} .fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--p),var(--pink));transition:.25s} .score{font-weight:900;white-space:nowrap}
+.hero{text-align:center;padding:34px 8px 15px} .hero h1{font-size:clamp(36px,7vw,72px);line-height:.95;margin:10px 0;letter-spacing:-3px} .hero p{max-width:760px;margin:12px auto;color:var(--muted);font-size:18px;line-height:1.55}
+.pill{display:inline-flex;background:var(--gold);color:#261500;font-weight:1000;padding:7px 13px;border-radius:999px;transform:rotate(-1deg)} .player{margin:20px auto;display:flex;gap:8px;justify-content:center;flex-wrap:wrap} input{padding:12px 14px;border-radius:13px;border:1px solid #ffffff2a;background:#ffffff0e;color:white;min-width:230px;font-size:16px}
+.primary{border:0;background:linear-gradient(90deg,var(--p),var(--pink));color:white;font-weight:900;padding:12px 18px;border-radius:13px;cursor:pointer} .secondary{border:1px solid #ffffff33;background:#ffffff10;color:white;font-weight:800;padding:10px 14px;border-radius:12px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:22px 0} .module{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid #ffffff20;border-radius:22px;padding:18px;cursor:pointer;transition:.15s;position:relative;overflow:hidden} .module:hover{transform:translateY(-3px);border-color:#ffffff55} .module.done:after{content:"✓ MASTERED";position:absolute;right:10px;top:10px;background:#064e3b;color:#b7ffe5;font-weight:900;font-size:11px;padding:5px 8px;border-radius:999px} .module .emoji{font-size:38px} .module h3{font-size:22px;margin:7px 0 4px} .module p{color:var(--muted);margin:0} .module small{color:var(--gold);font-weight:900}
+.card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid #ffffff20;border-radius:25px;padding:25px;margin:18px 0;box-shadow:0 18px 50px #0005} .kicker{color:var(--gold);font-weight:1000;letter-spacing:1.5px;font-size:12px} .bigicon{font-size:46px} h2{font-size:clamp(28px,5vw,44px);margin:4px 0} .subtitle{color:var(--cyan);font-weight:900;font-size:18px} .readcard{background:#ffffff0b;border:1px solid #ffffff17;border-radius:18px;padding:18px;margin:12px 0} .readcard h3{margin:0 0 7px;font-size:21px} .readcard p{color:#f3ecff;line-height:1.65;font-size:17px;margin:0}
+.callout{margin:16px 0;padding:14px 16px;border-radius:15px;background:#0ea5e91c;border-left:5px solid var(--cyan)} .qbox{margin-top:20px;padding-top:20px;border-top:1px solid #ffffff25} .qtitle{font-weight:1000;color:var(--gold);letter-spacing:.5px} .choices{display:grid;gap:9px;margin-top:12px} .choice{background:#ffffff0b;color:white;border:2px solid #ffffff22;border-radius:14px;padding:13px 15px;text-align:left;cursor:pointer} .choice:hover{border-color:var(--p);transform:translateY(-1px)} .choice.correct{background:#064e3b;border-color:var(--green)} .choice.wrong{background:#651a2a;border-color:var(--red)} .choice:disabled{cursor:default} .activity-box{margin:20px 0;padding:18px;border:1px solid #ffffff24;border-radius:18px;background:#ffffff08}
+.activity-head{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.activity-title{font-size:21px;font-weight:1000}.activity-help{color:var(--muted);font-size:13px}
+.drag-bank{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}
+.drag-card{background:#ffffff12;border:2px solid #ffffff28;border-radius:13px;padding:10px 12px;cursor:grab;user-select:none;font-weight:800}
+.drag-card.selected{border-color:var(--gold);background:#fbbf2420}
+.drag-card.placed{opacity:.45;cursor:default}
+.drop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.drop-zone{min-height:115px;border:2px dashed #ffffff35;border-radius:15px;padding:12px;background:#00000016}
+.drop-zone.over{border-color:var(--cyan);background:#22d3ee12}
+.drop-zone h4{margin:0 0 8px}.drop-items{display:flex;flex-wrap:wrap;gap:7px}
+.drop-chip{font-size:13px;background:#ffffff12;border-radius:10px;padding:7px 9px}
+.activity-feedback{min-height:24px;margin-top:10px;font-weight:900}
+.activity-feedback.good{color:#8ff7d0}.activity-feedback.bad{color:#ffb3c0}
+.feedback{display:none;padding:13px 15px;margin-top:11px;border-radius:13px;font-weight:700} .feedback.good{display:block;background:#064e3b} .feedback.bad{display:block;background:#651a2a}
+.navrow{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-top:20px} .hidden{display:none!important} .source{color:#bfeeff;font-size:13px;word-break:break-all} .video{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:18px;margin:16px 0;background:#000} .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.results{text-align:center} .rank{font-size:clamp(38px,7vw,65px);font-weight:1000;color:var(--gold)} .statsgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:18px 0} .stat{background:#ffffff0c;border-radius:15px;padding:16px} .stat b{font-size:26px;display:block} .tiny{font-size:13px;color:var(--muted)} .teacher{background:#ffffff09;padding:12px;border-radius:14px;margin-top:15px}
+.welcome{display:none;margin:16px auto 4px;max-width:680px;background:linear-gradient(135deg,#22d3ee18,#8b5cf633,#ec489922);border:1px solid #ffffff2b;border-radius:20px;padding:18px;text-align:left}
+.welcome.show{display:block;animation:pop .28s ease-out}
+@keyframes pop{from{transform:scale(.96);opacity:.2}to{transform:scale(1);opacity:1}}
+.welcome-name{font-size:28px;font-weight:1000}.welcome-sub{color:var(--muted);margin-top:4px}
+.name-status{margin-top:8px;min-height:24px;font-weight:900;color:var(--cyan)}
+.leaderboard{margin-top:18px}
+.leader-row{display:grid;grid-template-columns:42px 1fr auto;gap:10px;align-items:center;padding:11px 12px;border-bottom:1px solid #ffffff18}
+.leader-row:last-child{border-bottom:0}.leader-rank{font-weight:1000;color:var(--gold);text-align:center}
+.leader-name{font-weight:800}.leader-score{font-weight:1000;color:var(--cyan)}
+.danger{border:1px solid #fb718577;background:#fb718512;color:#ffd6de;font-weight:800;padding:10px 14px;border-radius:12px;cursor:pointer}
+.danger:hover{background:#fb718525}
+.flash{animation:flash .5s ease}
+@keyframes flash{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+@media print{.top,.primary,.secondary,.navrow{display:none!important} body{background:white;color:black} .card,.module,.readcard{background:white!important;color:black!important;box-shadow:none;border:1px solid #bbb} .readcard p,.module p,.tiny{color:#333!important}}
+</style>
+</head>
+<body>
+<div class="top"><div class="topin"><div class="brand">🏐 VB IQ ACADEMY</div><div class="meter"><div id="overallFill" class="fill"></div></div><div class="score"><span id="score">0</span> IQ</div></div></div>
+<main class="wrap">
+<section id="home">
+  <div class="hero">
+    <div class="pill">UNIT 1 • VOLLEYBALL FOUNDATIONS</div>
+    <h1>VOLLEYBALL<br>IQ ACADEMY</h1>
+    <p>Eight missions. Deeper reading. Real volleyball decisions. 5–7 understanding checks per mission. Learn a role, enter a game situation, prove you understand it, and build your Volleyball IQ.</p>
+    <div class="player">
+      <input id="name" placeholder="Player name">
+      <button id="lockNameBtn" class="primary" type="button">LOCK IN MY NAME</button>
+    </div>
+    <div id="nameStatus" class="name-status"></div>
+    <div id="welcomeCard" class="welcome">
+      <div class="kicker">PLAYER PROFILE ACTIVE</div>
+      <div id="welcomeName" class="welcome-name">🏐 Welcome!</div>
+      <div id="welcomeSub" class="welcome-sub">Your academy map is ready.</div>
+    </div>
+    <div class="tiny">Each player name gets its own saved progress on this browser/device.</div>
+    <div class="player">
+      <button id="leaderboardBtn" class="secondary" type="button">🏆 VIEW HIGHSCORES</button>
+      <button id="resetBtn" class="danger" type="button">↻ RESET THIS PLAYER</button>
+    </div>
+  </div>
+  <div id="moduleGrid" class="grid"></div>
+  <div class="card">
+    <div class="kicker">HOW IT WORKS</div><h2>Read → Decide → Prove It</h2>
+    <div class="statsgrid"><div class="stat">📖<b>READ</b><span class="tiny">Short scouting reports</span></div><div class="stat">🎮<b>DECIDE</b><span class="tiny">Game-time scenarios</span></div><div class="stat">🧠<b>PROVE</b><span class="tiny">Instant understanding checks</span></div><div class="stat">🏆<b>MASTER</b><span class="tiny">Earn IQ and finish Unit 1</span></div></div>
+  </div>
+</section>
+
+<section id="lesson" class="hidden"></section>
+
+<section id="leaderboard" class="card hidden">
+ <div class="kicker">LOCAL HIGHSCORES</div>
+ <h2>🏆 Volleyball IQ Leaderboard</h2>
+ <p class="tiny">This leaderboard ranks player profiles saved on this browser/device.</p>
+ <div id="leaderRows" class="leaderboard"></div>
+ <div class="navrow">
+   <button id="closeLeaderboardBtn" class="secondary" type="button">← BACK TO ACADEMY</button>
+   <button id="clearProfilesBtn" class="danger" type="button">CLEAR ALL LOCAL PLAYERS</button>
+ </div>
+</section>
+
+<section id="final" class="card results hidden">
+ <div class="bigicon">🏆</div><div class="kicker">UNIT 1 COMPLETE</div>
+ <h2 id="finalName">Volleyball IQ Report</h2><div id="rank" class="rank"></div>
+ <p id="summary"></p>
+ <div class="statsgrid"><div class="stat"><b id="fscore">0</b><span class="tiny">VOLLEYBALL IQ</span></div><div class="stat"><b id="fmods">0/8</b><span class="tiny">MISSIONS MASTERED</span></div><div class="stat"><b id="fpct">0%</b><span class="tiny">ACCURACY</span></div></div>
+ <button class="primary" onclick="goHome()">RETURN TO ACADEMY</button>
+</section>
+</main>
+<script>
+const modules=[{"id": "1A", "title": "Libero Lab", "icon": "🛡️", "subtitle": "The Floor Guardian", "source": "https://www.liveabout.com/libero-position-indoor-volleyball-3429244", "cards": [["Meet the Floor Guardian", "The libero is the team's back-row defensive specialist. You can usually identify this player immediately because the libero wears a jersey that contrasts with the rest of the team. The different jersey is not just fashion doing paperwork. It helps officials recognize a player who follows special replacement and playing rules. The libero's biggest responsibility is ball control: passing serves, digging attacks, and keeping rallies alive when the opponent thinks it has already scored."], ["Serve Receive = First Contact", "Serve receive is one of the libero's most important jobs. A libero reads the server, moves into position, creates a strong platform, and tries to send a controlled first contact toward the setter. A pass does not have to look spectacular to be excellent. The goal is control. When the setter receives a good pass, the offense has more choices and opposing blockers have a harder time predicting who will attack."], ["Dig Everything", "Defense begins before the hitter contacts the ball. Strong liberos watch the opposing setter, the hitter's approach, shoulder, and arm swing to predict where the attack may travel. Then they move, get balanced, and dig. A great dig is not merely a ball that flies into the air. The best digs are controlled enough that the team can transition from defense into an attack of its own."], ["Second-Ball Emergency", "Normally the setter handles the second contact, but rallies are messy. If the setter makes the first defensive contact or is pulled away from the play, the libero may need to take the second ball. That means a libero benefits from good hands, communication, and the ability to deliver a controlled ball to an attacker. Every player has a main job, but smart volleyball players are ready when the rally refuses to follow the plan."], ["Know the Limits", "The libero receives special replacement privileges and normally replaces back-row players without using a regular substitution. That freedom comes with restrictions. A libero cannot block or attempt to block and cannot complete an attack when the ball is entirely above the top of the net. Rules about libero serving can vary by competition, so players must know the rules being used in their league."]], "questions": [["Why does the libero wear a contrasting jersey?", ["So officials can identify the libero", "So teammates can track the captain", "So servers can choose their target", "So blockers can find the front row"], 0, "The contrasting jersey makes the libero easy to identify under the special rules."], ["What is the BEST result of a libero's serve-receive pass?", ["A controlled pass to the setter zone", "A high ball sent anywhere on court", "A quick ball returned over the net", "A pass aimed toward the opponent"], 0, "Good serve receive gives the setter options."], ["What can a libero read BEFORE an attacker contacts the ball?", ["Setter position and hitter body clues", "Scoreboard numbers and crowd noise", "Rotation order and timeout signals", "Referee movement and bench signals"], 0, "Reading the developing play helps defenders move before the attack arrives."], ["The setter digs the first ball. What might the libero need to do next?", ["Take second contact and set a hitter", "Move to the net and attempt a block", "Catch the ball and stop the rally", "Leave the court before the next touch"], 0, "When the setter takes first contact, another player may need to set."], ["Which action is illegal for a libero?", ["Attempting to block at the net", "Passing a serve in the back row", "Digging an attack near the floor", "Replacing an eligible back-row player"], 0, "Liberos cannot block or attempt to block."], ["Why is a controlled dig better than simply popping the ball anywhere?", ["It gives the team a chance to attack", "It automatically earns an extra point", "It lets the libero rotate to front row", "It ends the rally before the next hit"], 0, "Great defense creates an opportunity to attack."], ["Which statement BEST describes an effective libero?", ["Reads the game and controls the ball", "Focuses on hitting and front-row blocks", "Serves only and avoids defensive play", "Stays near the net for every rally"], 0, "The libero is built around defense, reading, communication, and ball control."]], "activity": {"title": "Libero or Nope?", "bins": ["LIBERO JOB", "NOT A LIBERO JOB"], "items": [["Dig a hard-driven attack", 0], ["Pass in serve receive", 0], ["Attempt a front-row block", 1], ["Control the second ball if needed", 0], ["Attack above the net", 1], ["Read the hitter before contact", 0]]}}, {"id": "1B", "title": "Setter Command Center", "icon": "🧠", "subtitle": "The Offensive Strategist", "source": "https://www.improveyourvolley.com/volleyball-setter.html", "cards": [["The Team's Quarterback", "The setter is the organizer of the offense. In a typical three-contact play, the first player passes, the setter takes the second contact, and an attacker takes the third. That means setters touch the ball constantly and make decisions under pressure. Like a quarterback choosing where to send a football, the setter decides which attacker has the best opportunity and delivers a ball that hitter can attack."], ["Get to the Ball", "A setter cannot assume every pass will land perfectly. They must read the first contact, move quickly, stop under control, and get their body into a position that lets them set accurately. Great setters make difficult passes look manageable. Footwork matters because even excellent hands cannot do much good when the setter arrives late or off balance."], ["Read the Block", "Setting is not simply sending the ball to a favorite hitter. Setters watch the opposing blockers. Is the middle blocker late? Is one blocker smaller? Has the defense started cheating toward the outside? The setter uses that information to distribute the ball and make the offense less predictable. The goal is to create the best possible matchup for the team."], ["Tempo & Location", "Different attackers need different sets. A middle may run a very quick attack close to the setter, while an outside hitter may need a higher ball traveling toward the antenna. Good setters understand location, height, and tempo. Consistency is critical because hitters time their approaches based on where and when they expect the ball to arrive."], ["Lead the Court", "Setters communicate before and during rallies. They call plays, tell hitters what is available, and help teammates stay organized when a pass pulls the offense out of system. Leadership does not mean shouting at everyone. It means communicating clearly, staying composed, taking responsibility, and helping the next play happen."]], "questions": [["Why is the setter often compared with a quarterback?", ["The setter directs the team's offense", "The setter always starts each rally", "The setter is usually the tallest player", "The setter only plays in the back row"], 0, "The setter makes decisions about how the offense will attack."], ["What contact does the setter usually take in a pass-set-attack sequence?", ["The second contact of the rally", "The first contact of the rally", "The third contact of the rally", "The fourth contact of the rally"], 0, "The setter normally handles the second contact."], ["A pass drifts several feet off the net. What should a setter do first?", ["Move quickly into a setting position", "Wait for the ball to drift back", "Call for a block at the net", "Let the ball drop and reset"], 0, "Setters have to move to imperfect passes."], ["Why should a setter watch the opposing blockers?", ["To choose better attacking matchups", "To copy how the blockers move", "To know when the set will end", "To decide who should serve next"], 0, "Reading blockers helps a setter make tactical choices."], ["Which set would usually require the fastest tempo?", ["A quick set to the middle hitter", "A high set to the outside hitter", "A free ball sent to the back row", "A standing serve from position one"], 0, "Middle attacks are often run at a quick tempo near the setter."], ["Why is setting consistency important to hitters?", ["It helps them time their approach", "It makes the net easier to reach", "It allows them to catch the ball", "It removes blockers from the play"], 0, "Predictable location and tempo help hitters time their approach."], ["Which behavior shows setter leadership?", ["Clear communication and calm decisions", "Blaming teammates after every mistake", "Setting only one favorite attacker", "Ignoring teammates during each rally"], 0, "Setters lead through communication, decision-making, and composure."]], "activity": {"title": "Setter Decision Sort", "bins": ["SETTER RESPONSIBILITY", "NOT THE SETTER'S MAIN JOB"], "items": [["Deliver the second contact", 0], ["Read opposing blockers", 0], ["Choose an attacking option", 0], ["Dig every back-row attack", 1], ["Keep set location consistent", 0], ["Stay at middle front all rally", 1]]}}, {"id": "1C", "title": "Outside Hitter Arena", "icon": "🔥", "subtitle": "The All-Around Attacker", "source": "https://www.flovolleyball.tv/articles/5067897-what-are-the-positions-in-volleyball", "cards": [["The Left-Side Threat", "The outside hitter is one of volleyball's most versatile positions. In the front row, the outside usually attacks from the left side of the court. Because the left-side set remains available even when the first pass is not perfect, outside hitters often receive difficult or high sets and are expected to find a way to keep the ball aggressive and playable."], ["Pass Then Attack", "Many outside hitters are part of serve receive. That means one rally can demand two very different skills within seconds: first control the opponent's serve, then transition toward the net, time an approach, jump, and attack. Players who mentally stay stuck on their pass arrive late to hit. Strong outsides finish one job and immediately prepare for the next."], ["Attack With a Brain", "Power is useful, but swinging as hard as possible into a giant block is not exactly advanced mathematics. Outside hitters learn to see the block and defense. They can hit hard, tip into open space, roll shot, use the blocker's hands, or attack deep areas of the court. The smartest shot depends on what the defense gives them."], ["Block & Defend", "When an outside hitter is front row, attacking is only half the job. They also block opposing attackers, often working with the middle blocker to close the space between their hands. In the back row, they may pass and dig. That front-to-back responsibility is why outside hitters are commonly described as all-around players."], ["Out-of-System Hero", "If a pass pulls the setter far from the net, the team may lose access to its fastest offensive plays. A high ball to the outside is often still possible. Outside hitters therefore need patience, good approach timing, and the ability to attack against a defense that may already know where the ball is going."]], "questions": [["Where does an outside hitter usually attack in the front row?", ["From the left side of the net", "From the middle-back court area", "From the right-back serving zone", "From beside the referee stand"], 0, "Outside hitters are commonly left-side attackers."], ["Why must an outside hitter transition quickly after serve receive?", ["They may pass and then need to attack", "They must leave the court right away", "They are required to rotate two spots", "They become the setter after passing"], 0, "Outside hitters often perform multiple jobs in the same rally."], ["The opposing block is well formed. What is the smartest attacking idea?", ["Read the block and choose a smart shot", "Close your eyes and swing harder", "Catch the set and restart the play", "Stop the approach and stand still"], 0, "Good attackers use both power and decision-making."], ["What defensive responsibility does a front-row outside hitter have?", ["Blocking attacks at the net", "Keeping score from the sideline", "Calling substitutions for the coach", "Serving from the team bench area"], 0, "Outside hitters must block as well as attack."], ["Why is the outside often used when the team is out of system?", ["A high outside set is often available", "Outside hitters are allowed four contacts", "The libero must always set outside", "Middle hitters cannot attack at all"], 0, "The outside is a common safe option when the offense is disrupted."], ["Which player sounds most like a strong outside hitter?", ["Passes, attacks, blocks, and defends", "Only wants to swing at every set", "Refuses to pass in serve receive", "Stays in one place during rallies"], 0, "Versatility is central to the outside hitter role."], ["After making a poor pass, what should an outside hitter do?", ["Reset quickly and prepare for the next job", "Stop moving until the rally is over", "Argue about the pass with a teammate", "Wait for the next point to begin"], 0, "Volleyball demands moving on to the next job immediately."]], "activity": {"title": "Outside Hitter Toolbox", "bins": ["OUTSIDE HITTER SKILL", "DOESN'T FIT THE ROLE"], "items": [["Pass then transition to attack", 0], ["Block on the left side", 0], ["Attack a high out-of-system set", 0], ["Wear the libero jersey", 1], ["Use tips, rolls, and hard swings", 0], ["Set every second contact", 1]]}}, {"id": "1D", "title": "Middle Blocker Reactor", "icon": "🚧", "subtitle": "Own the Net", "source": "https://volleyballvault.com/middle-blocker-volleyball-position/", "cards": [["The Net's Traffic Controller", "The middle blocker lives in the busiest part of the front row. Their defensive job is to read the opposing offense and help form blocks against attacks from different locations. A middle may begin near the center and then move quickly toward either antenna. The faster the read and footwork, the better chance the team has of creating a strong two-person block."], ["Read the Setter", "Middles cannot simply chase the ball after it has already been set. They watch clues from the opposing setter: body position, hands, location, and which attackers are available. Good reading buys the blocker precious fractions of a second. At game speed, those fractions are the difference between closing a block and arriving just in time to watch the ball land."], ["Quick Attack", "Offensively, middles often run fast attacks close to the setter. Because the ball is set quickly, opposing blockers have less time to react. A successful quick attack depends on trust and timing between setter and middle. The middle often begins the approach before knowing with certainty that the ball will be set to them."], ["Close the Block", "A blocker standing near another blocker is not automatically a good double block. The middle must move far enough to close the seam between them. Hands press over the net, timing matches the attacker, and teammates work together to take away space. Gaps between blockers give attackers inviting targets."], ["Transition Fast", "After landing from a block attempt, the middle may need to get off the net, approach for an attack, then immediately prepare to block again. Middles repeatedly switch between offense and defense. Height can help, but reading, footwork, timing, and effort are what allow that height to matter."]], "questions": [["What is the middle blocker's main defensive responsibility?", ["Read the offense and form strong blocks", "Pass every serve in the back row", "Set every second ball near the net", "Serve from position six each rotation"], 0, "Middles organize much of the front-row blocking."], ["Why does a middle watch the opposing setter?", ["To predict where the set may travel", "To learn the current match score", "To know when they should serve", "To decide which uniform to wear"], 0, "Setter clues help the middle begin moving sooner."], ["What makes a quick middle attack difficult to defend?", ["The fast tempo gives less reaction time", "The middle is allowed to catch the ball", "The attack uses four team contacts", "The hitter starts behind the end line"], 0, "Quick tempo pressures opposing blockers."], ["What does it mean to close the block?", ["Remove the gap between two blockers", "Move farther away from the other blocker", "Stand directly under the center of net", "Stop jumping and wait for the attack"], 0, "Closing the seam prevents an easy attacking lane."], ["A middle lands after blocking. What might happen next?", ["Transition off and prepare to attack", "The rally automatically ends right away", "The middle must leave the court", "The middle becomes the setter"], 0, "Middles rapidly transition between blocking and attacking."], ["Why is height alone not enough to make a great middle?", ["Reading, footwork, and timing still matter", "Tall players are not allowed to block", "Height is not useful near the net", "Middles are never required to jump"], 0, "Physical size only helps when paired with skill and decision-making."], ["Which action shows a middle reading the game well?", ["Moving early from setter and hitter clues", "Waiting until the ball is already past", "Watching only where the ball lands", "Ignoring the setter before each play"], 0, "Great middles anticipate rather than simply react late."]], "activity": {"title": "Middle Blocker Read", "bins": ["MIDDLE BLOCKER JOB", "NOT A MIDDLE JOB"], "items": [["Read the opposing setter", 0], ["Close the block with a teammate", 0], ["Run quick attacks", 0], ["Own every serve-receive pass", 1], ["Move laterally along the net", 0], ["Wear the contrasting jersey", 1]]}}, {"id": "1E", "title": "DS Rescue Squad", "icon": "⚡", "subtitle": "Defensive Specialist", "source": "https://volleyballa.com/blogs/news/defensive-specialist-ds-volleyball-explained", "cards": [["Defense on Demand", "A defensive specialist, usually shortened to DS, is a back-row player used to improve a team's passing and defense. Coaches often substitute a DS for a strong front-row player who is less comfortable receiving serves or defending attacks in the back court. The DS enters with a clear purpose: stabilize the first contact and make the defense harder to score against."], ["Serve Receive", "A DS needs a dependable passing platform and the ability to judge serves quickly. Is the ball short, deep, floating, or moving toward a seam between passers? Good defensive specialists communicate early and take responsibility for the ball. Passing is not just about technique. It also requires reading, movement, and decisive communication."], ["Dig & Cover", "During an opponent's attack, a DS reads hitters and digs just like other back-row defenders. When their own team attacks, they may also cover hitters in case the ball is blocked back. Defense is full of plays that never become highlight videos but prevent the rally from ending. DS players make a living in those details."], ["DS vs. Libero", "A DS and libero may perform similar defensive skills, but the positions operate under different rules. The libero wears a contrasting jersey and uses special libero replacements. A DS wears the normal team jersey and enters through regular substitutions. A DS may also serve when the rotation and competition rules allow it."], ["Ready Before Your Name Is Called", "A DS can spend time on the sideline and then suddenly be asked to enter a tight set. That makes preparation part of the position. They should track the rotation, watch server tendencies, stay warm, and know exactly whom they are replacing. Entering the court should not be the moment they begin figuring out what is happening."]], "questions": [["Why would a coach put a DS into the match?", ["To improve back-row passing and defense", "To add a stronger front-row blocker", "To replace the referee for a rally", "To avoid rotating after winning serve"], 0, "The DS is a defensive and ball-control substitution."], ["What should a DS do when a serve travels toward a seam between two passers?", ["Communicate early and claim the ball", "Stay silent and wait for a teammate", "Catch the serve and restart the rally", "Run forward to the net immediately"], 0, "Communication prevents hesitation and passing confusion."], ["What does 'cover the hitter' mean for a defender?", ["Be ready for a ball blocked back", "Stand beside the hitter after the play", "Tell the hitter where to serve next", "Replace the blocker during the rally"], 0, "Coverage keeps blocked attacks from immediately ending the rally."], ["What is one clear difference between a DS and a libero?", ["A DS uses regular substitutions", "A DS is allowed to catch the ball", "A libero cannot pass serve receive", "A DS never plays in the back row"], 0, "Their defensive skills overlap, but their substitution and uniform rules differ."], ["What should a DS track while on the sideline?", ["Rotation, tendencies, and substitution role", "Only the crowd and scoreboard lights", "The concession stand and team bags", "Nothing until the coach calls them"], 0, "Preparation allows a DS to enter ready."], ["Which skills are most important for a DS?", ["Passing, digging, reading, and talking", "Attacking, blocking, and jump serving", "Setting, tipping, and front-row hitting", "Serving only and avoiding defense"], 0, "DS players specialize in back-row ball control."], ["A DS enters at 23-23. What mindset is most useful?", ["Stay calm, prepared, and focused", "Panic because the score is close", "Try a new skill never practiced", "Ignore the current rotation completely"], 0, "Defensive specialists need readiness and composure."]], "activity": {"title": "DS Back-Row Check", "bins": ["DS RESPONSIBILITY", "NOT A DS RESPONSIBILITY"], "items": [["Strengthen serve receive", 0], ["Dig attacks", 0], ["Track the rotation from the bench", 0], ["Use libero replacements", 1], ["Cover hitters", 0], ["Block as a front-row middle", 1]]}}, {"id": "1F", "title": "Bench = Battle Station", "icon": "📣", "subtitle": "Stay Ready, Stay Valuable", "source": "https://keepplayingbaseball.org/on-the-bench-increase-your-value-as-a-player/", "cards": [["The Bench Is Still the Team", "Being off the court does not mean being out of the match. Bench players are teammates, observers, communicators, and potential substitutes. Their body language and attention affect the group. A player who stays engaged can enter with useful information. A player who mentally disappears may need several rallies just to understand the rotation."], ["Scout While You Watch", "The bench has a useful view of the match. Players can notice serving patterns, tipping tendencies, which hitter receives the most sets, and where open court appears. They can share helpful observations at appropriate moments. Watching with a purpose turns waiting time into volleyball learning."], ["Know the Rotation", "Bench players should track who is front row, who is back row, and where their possible substitution spot is moving. If the coach calls a player's name, the response should be immediate. Knowing the score, rotation, and assignment makes the transition onto the court much smoother."], ["Energy Without Chaos", "Bench energy should help the six players on the floor. Celebrate effort, encourage teammates after mistakes, and communicate useful information. Screaming random nonsense during every contact is certainly noise, but noise and support are not always the same species. Good energy is positive, focused, and connected to the match."], ["Your Opportunity Can Arrive Fast", "Many players begin with limited playing time. Practice habits, attitude, improvement, and readiness can increase a player's value. When an opportunity arrives, the bench player does not control whether the first ball is easy. They control whether they are prepared to compete for it."]], "questions": [["What is a bench player's job during the match?", ["Stay engaged, learn, support, and prepare", "Ignore the game until the coach calls", "Leave the team area between rallies", "Coach the referee from the sideline"], 0, "Bench players remain active members of the team."], ["What useful information can a bench player observe?", ["Serving and attacking patterns", "The final score before it happens", "The referee's private thoughts", "Nothing useful from the sideline"], 0, "Focused observation can reveal opponent tendencies."], ["Why should a bench player track the rotation?", ["To understand the situation when entering", "Because only bench players rotate", "To change the score for the team", "To decide which team wins the set"], 0, "Knowing the rotation makes entering the match smoother."], ["Which example is GOOD bench energy?", ["Encourage teammates and stay focused", "Mock teammates after every mistake", "Talk during every coach instruction", "Ignore the court between substitutions"], 0, "Useful bench energy is positive and team-centered."], ["A coach suddenly calls your name at 24-24. What should already be true?", ["You know the situation and are ready", "You are still searching for your shoes", "You do not know which team is serving", "You need several rallies to focus"], 0, "Readiness begins before the substitution call."], ["How can limited playing time still help a player improve?", ["Use observation, practice, and preparation", "There is no way to improve from bench", "Stop practicing until playing time grows", "Only complain about minutes played"], 0, "Players can learn and prepare even when they are not currently on court."], ["What can a bench player control?", ["Preparation, effort, attitude, and response", "Exactly when the coach substitutes them", "Every referee decision in the match", "The opponent's starting lineup"], 0, "Players control their preparation and response, not every circumstance."]], "activity": {"title": "Bench Player: Ready or Not?", "bins": ["HELPS THE TEAM", "HURTS READINESS"], "items": [["Track serving patterns", 0], ["Know the current rotation", 0], ["Encourage after mistakes", 0], ["Stop watching until called", 1], ["Stay mentally ready to enter", 0], ["Ignore coach instructions", 1]]}}, {"id": "1G", "title": "Volleyball Basics Bootcamp", "icon": "🏐", "subtitle": "Rules, Court & Rotation", "source": "COURSE PDF", "cards": [["How Volleyball Works", "The course introduction describes indoor volleyball as six players per team on a divided court. The basic objective is to make the ball contact the floor on the opponent's side while preventing that from happening on your own side. A match is typically best-of-five sets, and the standard sets described in the course are played to 25 points."], ["Rally Scoring & Side-Out", "Volleyball uses rally scoring, meaning every rally produces a point regardless of which team served. Standard sets are played to 25 and a deciding set to 15, with a team required to win by two. When the receiving team wins a rally, it earns the point and gains the serve. This change of service is often called a side-out."], ["Court & Boundaries", "The course lists the indoor court as 18 meters by 9 meters, or 59 feet by 29 feet 6 inches. Boundary lines are considered in bounds. Antennas help mark the legal crossing space near the sidelines of the net. Knowing court boundaries matters because a ball touching a boundary line is not out."], ["Three Contacts & Legal Contact", "Each team gets up to three contacts to return the ball, and the course notes that a block does not count as one of those contacts. The ball must be hit rather than caught. Players also cannot make two consecutive contacts under the basic rule described in the lesson. These rules create volleyball's familiar pass-set-attack rhythm."], ["Rotation Map", "Players rotate clockwise when their team wins the serve from the opponent. The front row is positions 4, 3, and 2. The back row is positions 5, 6, and 1. Position 1 is right back and is the serving position. Rotation determines where players must begin, even though teams may move into specialized offensive and defensive locations after the serve."], ["Serving Rules", "The server waits for the referee's whistle and then has eight seconds to serve according to the course material. The ball must be tossed or released before contact. The server cannot step on or over the end line before contacting the ball, which would be a foot fault. A serve that touches the net but continues legally over it remains playable."], ["Substitutions, Libero & Timeouts", "The course lists 12 substitutions per set and says players substitute in and out with the same player. Libero replacements do not count toward those 12 substitutions, and the libero can freely replace back-row players. The lesson also lists two timeouts per team per set, lasting 30 seconds each."]], "questions": [["How many players per team are on the court in the course's standard indoor game?", ["Six players are on the court", "Five players are on the court", "Seven players are on the court", "Nine players are on the court"], 0, "The course introduction states six players per team."], ["A ball lands directly on the sideline. What does the course say?", ["The ball is considered in bounds", "The ball is automatically out", "The rally must always be replayed", "Only the captain decides the call"], 0, "Boundary lines are considered in bounds."], ["Your team is receiving and wins the rally. What happens?", ["You score, gain serve, and rotate", "You rotate but do not gain serve", "No point is awarded on the rally", "You rotate in the opposite direction"], 0, "Under rally scoring, you get the point and service."], ["How many team contacts are allowed before returning the ball?", ["Up to three team contacts", "Up to four team contacts", "Exactly two team contacts", "Unlimited team contacts"], 0, "Each side receives up to three contacts."], ["Does a block count as one of the three contacts in this course lesson?", ["No, the block does not count", "Yes, the block always counts", "Only on the final point of a set", "Only when the libero makes the block"], 0, "The PDF explicitly states that blocks do not count as a touch."], ["Which positions form the front row?", ["Positions four, three, and two", "Positions five, six, and one", "Positions one, two, and three", "Positions four, five, and six"], 0, "The course identifies positions 4, 3, and 2 as front row."], ["A serve touches the net and crosses legally. What is the ruling in the course?", ["The serve is legal and play continues", "The serve is an automatic error", "The rally must always be replayed", "The receiving team earns two points"], 0, "The course says let serves that cross the net are legal."]], "activity": {"title": "Rules Court Sort", "bins": ["LEGAL / CORRECT", "ILLEGAL / INCORRECT"], "items": [["Use up to three team contacts", 0], ["Ball lands on the boundary line", 0], ["Rotate clockwise after gaining serve", 0], ["Catch the ball before returning it", 1], ["Step over the end line before serving", 1], ["A legal serve clips the net and crosses", 0]]}}, {"id": "1H", "title": "Positions Film Room", "icon": "🎥", "subtitle": "Watch, Notice, Prove It", "source": "https://www.youtube.com/watch?v=Laf3-KQUG60&t=4s", "video": "https://www.youtube.com/embed/Laf3-KQUG60?start=4", "cards": [["Watch Like a Coach", "The film-room mission brings the position lessons together. While watching, focus on responsibilities rather than merely memorizing names. Ask yourself: Who is trying to take the second contact? Who is moving along the net to block? Who is passing and defending in the back row? Who transitions from serve receive into an attacking approach?"], ["Starting Position vs. Playing Position", "Rotation rules determine where players begin a rally, but volleyball becomes more specialized once the ball is served. Players move into locations that help them perform their jobs. That is why understanding a position requires more than memorizing a numbered spot on the court."], ["Follow the Three Contacts", "One useful way to study game film is to follow the contacts. On a controlled rally, contact one is often a pass or dig, contact two is often the set, and contact three is usually the attack. Then watch how every player moves even when they never touch the ball. Volleyball is full of important off-ball movement."], ["Compare the Roles", "The setter organizes offense. Outsides attack and contribute in passing and defense. Middles work quickly at the net as blockers and attackers. Liberos and defensive specialists strengthen the back row. Bench players stay ready and gather information. The positions are different, but every role connects to the same rally."], ["Film-Room Goal", "Do not finish the video only knowing definitions. Try to predict what a player will do next based on the role. If you can see a setter moving toward second contact or a middle preparing to close a block before it happens, your Volleyball IQ is starting to become game-speed knowledge."]], "questions": [["Which player usually tries to take the second contact?", ["The setter usually takes second contact", "The libero always takes second contact", "The middle always takes second contact", "The bench player takes second contact"], 0, "The setter normally organizes the second contact and offense."], ["Which position is strongly associated with quick attacks and blocking in the center?", ["The middle blocker fits that role", "The libero fits that role", "The defensive specialist fits that role", "The outside hitter only fits that role"], 0, "Middles specialize in central blocking and quick offense."], ["Which two roles are most focused on back-row defense?", ["Libero and defensive specialist", "Setter and middle blocker", "Middle blocker and outside hitter", "Coach and team captain"], 0, "Libero and DS are defense-centered roles."], ["Which player often passes serve receive and then transitions to attack?", ["The outside hitter often does both", "The referee often does both", "The scorekeeper often does both", "The libero attacks from front row"], 0, "Outside hitters often have both passing and attacking responsibilities."], ["Why can players move after the serve?", ["They move into specialized team roles", "Rotation rules disappear after serve", "Players may switch teams after serve", "Only the server is allowed to move"], 0, "Players must respect rotation at the required moment, then use team systems."], ["What is a common controlled three-contact sequence?", ["Pass or dig, then set, then attack", "Attack, catch, then serve again", "Block, timeout, then serve", "Set, set, then set again"], 0, "Pass-set-attack is the classic three-contact pattern."], ["What shows the HIGHEST Volleyball IQ while watching film?", ["Predicting actions from role and play clues", "Only memorizing each jersey number", "Watching only the ball every rally", "Counting how often the crowd cheers"], 0, "Prediction shows that you understand how responsibilities connect to game situations."]], "activity": {"title": "Film Room Role Match", "bins": ["MATCHES THE ROLE", "DOESN'T MATCH"], "items": [["Setter takes second contact", 0], ["Middle closes a block", 0], ["Outside passes then attacks", 0], ["Libero runs a front-row quick hit", 1], ["DS strengthens back-row defense", 0], ["Bench player ignores the rally", 1]]}}];
+const PROFILE_KEY="vbiq_profiles_v3";
+const ACTIVE_KEY="vbiq_active_player_v3";
+function blankState(name=""){return {name,score:0,done:{},correct:0,attempted:0}}
+function keyFor(name){return String(name||"").trim().toLowerCase()}
+function loadProfiles(){try{return JSON.parse(localStorage.getItem(PROFILE_KEY)||"{}")}catch(e){return {}}}
+function saveProfiles(p){localStorage.setItem(PROFILE_KEY,JSON.stringify(p))}
+let profiles=loadProfiles();
+let activeName=localStorage.getItem(ACTIVE_KEY)||"";
+let state=(activeName && profiles[keyFor(activeName)]) ? profiles[keyFor(activeName)] : blankState(activeName);
+let current=null, qi=0, moduleCorrect=0, locked=false, currentChoices=[], activityDone=false, activityState=null;
+
+function persist(){
+  if(state.name){
+    profiles=loadProfiles();
+    profiles[keyFor(state.name)]=state;
+    saveProfiles(profiles);
+    localStorage.setItem(ACTIVE_KEY,state.name);
+    activeName=state.name;
+  }
+  updateTop();
+}
+
+function saveName(){
+  const input=document.getElementById("name");
+  const typed=(input.value||"").trim();
+  const status=document.getElementById("nameStatus");
+  if(!typed){status.textContent="Enter a player name first.";input.focus();return;}
+  profiles=loadProfiles();
+  const k=keyFor(typed);
+  if(profiles[k]){
+    state=profiles[k];
+    state.name=typed;
+    status.textContent="✓ Returning player loaded.";
+    showWelcome("Welcome back, "+typed+"!","Your saved missions and IQ are loaded. Keep climbing.");
+  } else {
+    state=blankState(typed);
+    profiles[k]=state;
+    saveProfiles(profiles);
+    status.textContent="✓ New player profile created.";
+    showWelcome("Welcome to the Academy, "+typed+"!","Your first mission is waiting. Build your Volleyball IQ one rotation at a time.");
+  }
+  activeName=typed;
+  localStorage.setItem(ACTIVE_KEY,typed);
+  persist();
+  renderGrid();
+}
+
+function showWelcome(title,sub){
+  const c=document.getElementById("welcomeCard");
+  document.getElementById("welcomeName").textContent="🏐 "+title;
+  document.getElementById("welcomeSub").textContent=sub;
+  c.classList.remove("show"); void c.offsetWidth; c.classList.add("show");
+}
+function saveName(){state.name=document.getElementById("name").value.trim()||"Player";persist();renderGrid()}
+function updateTop(){document.getElementById("score").textContent=state.score;let d=Object.keys(state.done).length;document.getElementById("overallFill").style.width=(d/modules.length*100)+"%"}
+function renderGrid(){
+ const input=document.getElementById("name");
+ input.value=state.name||activeName||"";
+ const g=document.getElementById("moduleGrid");
+ g.innerHTML="";
+ modules.forEach((m,i)=>{
+   const el=document.createElement("div");
+   el.className="module"+(state.done[m.id]?" done":"");
+   el.onclick=()=>openModule(i);
+   el.innerHTML=`<small>${m.id}</small><div class="emoji">${m.icon}</div><h3>${m.title}</h3><p>${m.subtitle}</p>`;
+   g.appendChild(el);
+ });
+ updateTop();
+}
+function openModule(i){
+ current=i;qi=0;moduleCorrect=0;locked=false;activityDone=false;activityState=null;
+ document.getElementById("home").classList.add("hidden");document.getElementById("final").classList.add("hidden");document.getElementById("leaderboard").classList.add("hidden");document.getElementById("lesson").classList.remove("hidden");renderLesson();scrollTo(0,0)
+}
+function shuffledQuestion(q){
+ const items=q[1].map((text,originalIndex)=>({text,correct:originalIndex===q[2]}));
+ for(let i=items.length-1;i>0;i--){
+   const j=Math.floor(Math.random()*(i+1));
+   [items[i],items[j]]=[items[j],items[i]];
+ }
+ return items;
+}
+
+function shuffleArray(arr){
+ const copy=arr.slice();
+ for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}
+ return copy;
+}
+function activityMarkup(a){
+ if(!activityState){
+   activityState={items:shuffleArray(a.items.map((x,i)=>({text:x[0],bin:x[1],id:i,placed:null}))),selected:null};
+ }
+ return `<div class="activity-box">
+   <div class="activity-head">
+     <div><div class="kicker">MINI CHALLENGE</div><div class="activity-title">🧩 ${a.title}</div></div>
+     <div class="activity-help">Drag each card into a bin. On a Chromebook touchscreen, tap a card and then tap a bin.</div>
+   </div>
+   <div id="dragBank" class="drag-bank">
+     ${activityState.items.filter(x=>x.placed===null).map(x=>`<div class="drag-card" draggable="true" data-item="${x.id}">${x.text}</div>`).join("")}
+   </div>
+   <div class="drop-grid">
+     ${a.bins.map((b,bi)=>`<div class="drop-zone" data-bin="${bi}"><h4>${b}</h4><div class="drop-items">${activityState.items.filter(x=>x.placed===bi).map(x=>`<span class="drop-chip">${x.text}</span>`).join("")}</div></div>`).join("")}
+   </div>
+   <div id="activityFeedback" class="activity-feedback">${activityDone?"✅ Challenge complete. Now prove it in the questions.":"Place all six cards to unlock the understanding check."}</div>
+ </div>`;
+}
+function setupActivity(){
+ const box=document.querySelector(".activity-box");
+ if(!box || activityDone)return;
+ let dragged=null;
+ document.querySelectorAll(".drag-card").forEach(card=>{
+   card.addEventListener("dragstart",()=>{dragged=Number(card.dataset.item)});
+   card.addEventListener("click",()=>{
+     document.querySelectorAll(".drag-card").forEach(c=>c.classList.remove("selected"));
+     const id=Number(card.dataset.item);
+     activityState.selected=(activityState.selected===id?null:id);
+     if(activityState.selected!==null)card.classList.add("selected");
+   });
+ });
+ document.querySelectorAll(".drop-zone").forEach(zone=>{
+   zone.addEventListener("dragover",e=>{e.preventDefault();zone.classList.add("over")});
+   zone.addEventListener("dragleave",()=>zone.classList.remove("over"));
+   zone.addEventListener("drop",e=>{e.preventDefault();zone.classList.remove("over");if(dragged!==null)placeActivityItem(dragged,Number(zone.dataset.bin))});
+   zone.addEventListener("click",()=>{if(activityState.selected!==null)placeActivityItem(activityState.selected,Number(zone.dataset.bin))});
+ });
+}
+function placeActivityItem(id,bin){
+ const item=activityState.items.find(x=>x.id===id);
+ if(!item || item.placed!==null)return;
+ const fb=document.getElementById("activityFeedback");
+ if(item.bin===bin){
+   item.placed=bin;
+   activityState.selected=null;
+   const left=activityState.items.filter(x=>x.placed===null).length;
+   if(left===0){
+     activityDone=true;
+     fb.className="activity-feedback good";
+     fb.textContent="✅ PERFECT SORT! Understanding check unlocked.";
+   }
+   renderLesson();
+ }else{
+   activityState.selected=null;
+   fb.className="activity-feedback bad";
+   fb.textContent="❌ Not that bin. Think about the role and try again.";
+   document.querySelectorAll(".drag-card").forEach(c=>c.classList.remove("selected"));
+ }
+}
+
+function renderLesson(){
+ const m=modules[current], q=m.questions[qi], lesson=document.getElementById("lesson");
+ currentChoices=shuffledQuestion(q);
+ const cards=m.cards.map(c=>`<div class="readcard"><h3>${c[0]}</h3><p>${c[1]}</p></div>`).join("");
+ const video=m.video?`<div class="callout">🎥 <b>FILM ROOM:</b> Watch before answering the checks below.</div><div class="video"><iframe src="${m.video}" title="Volleyball positions video" allowfullscreen></iframe></div>`:""; const act=activityMarkup(m.activity);
+ lesson.innerHTML=`<div class="card">
+ <div class="kicker">${m.id} • MISSION ${current+1} OF ${modules.length}</div><div class="bigicon">${m.icon}</div><h2>${m.title}</h2><div class="subtitle">${m.subtitle}</div>
+ ${video}${cards}${act}
+ <div class="callout">🎯 <b>COACH CHECK:</b> Read the situation carefully. Answer order changes, and the choices are kept similar in length, so students have to read instead of hunting for the suspiciously longest answer.</div>
+ <div class="qbox"><div class="qtitle">CHECK ${qi+1} OF ${m.questions.length}</div><h3>${q[0]}</h3><div class="choices">${currentChoices.map((a,j)=>`<button class="choice" ${activityDone?"":"disabled"} onclick="answer(${j},this)">${String.fromCharCode(65+j)}. ${a.text}</button>`).join("")}</div><div id="fb" class="feedback"></div></div>
+ <div class="navrow"><button class="secondary" onclick="goHome()">← Academy Map</button><button id="next" class="primary hidden" onclick="nextQuestion()">${qi===m.questions.length-1?"FINISH MISSION ✓":"NEXT CHECK →"}</button></div>
+ <p class="source">Source / further reading: ${m.source}</p>
+ </div>`;
+ locked=false;
+ setupActivity();
+}
+function answer(choice,btn){
+ if(locked)return;
+ locked=true;
+ state.attempted++;
+ const q=modules[current].questions[qi];
+ const buttons=[...document.querySelectorAll(".choice")];
+ const fb=document.getElementById("fb");
+ const correctIndex=currentChoices.findIndex(x=>x.correct);
+ buttons.forEach((b,j)=>{b.disabled=true;if(j===correctIndex)b.classList.add("correct")});
+ if(currentChoices[choice].correct){
+   moduleCorrect++; state.correct++;
+   fb.className="feedback good";
+   fb.innerHTML="✅ READ! "+q[3];
+ } else {
+   btn.classList.add("wrong");
+   fb.className="feedback bad";
+   fb.innerHTML="❌ Reset and read the court. "+q[3]+" <br><b>Best answer:</b> "+currentChoices[correctIndex].text;
+ }
+ document.getElementById("next").classList.remove("hidden");
+ persist();
+}
+function nextQuestion(){
+ const m=modules[current];
+ if(qi<m.questions.length-1){qi++;renderLesson();document.querySelector("#lesson .card").scrollIntoView()}
+ else finishModule()
+}
+function finishModule(){
+ const m=modules[current], max=m.questions.length, earned=Math.round(moduleCorrect/max*100);
+ if(!state.done[m.id]) state.score += earned;
+ else state.score += Math.max(0,earned-state.done[m.id].score);
+ state.done[m.id]={score:Math.max(earned,state.done[m.id]?.score||0),correct:moduleCorrect,max:max};
+ persist();
+ const lesson=document.getElementById("lesson");
+ let label=earned===100?"MISSION ACE":earned>=80?"COURT READY":earned>=60?"SOLID ROTATION":"REPLAY NEEDED";
+ lesson.innerHTML=`<div class="card results"><div class="bigicon">${m.icon}</div><div class="kicker">${m.id} COMPLETE</div><h2>${m.title}</h2><div class="rank">${label}</div><p>You earned <b>${earned} Volleyball IQ</b> on this mission.</p><div class="statsgrid"><div class="stat"><b>${moduleCorrect}/${max}</b><span class="tiny">CORRECT</span></div><div class="stat"><b>${earned}</b><span class="tiny">MISSION IQ</span></div></div><div class="navrow"><button class="secondary" onclick="openModule(${current})">REPLAY MISSION</button><button class="primary" onclick="afterMission()">CONTINUE →</button></div></div>`;scrollTo(0,0)
+}
+function afterMission(){if(Object.keys(state.done).length===modules.length)showFinal();else goHome()}
+function showFinal(){
+ document.getElementById("lesson").classList.add("hidden");document.getElementById("home").classList.add("hidden");document.getElementById("leaderboard").classList.add("hidden");document.getElementById("final").classList.remove("hidden");
+ const pct=state.attempted?Math.round(state.correct/state.attempted*100):0, d=Object.keys(state.done).length;
+ document.getElementById("finalName").textContent=(state.name||"Player")+"'s Volleyball IQ Report";
+ document.getElementById("fscore").textContent=state.score;document.getElementById("fmods").textContent=d+"/8";document.getElementById("fpct").textContent=pct+"%";
+ let rank=state.score>=750?"COURT COMMANDER":state.score>=650?"VOLLEYBALL BRAIN":state.score>=500?"ROTATION READY":"RISING ROOKIE";
+ document.getElementById("rank").textContent=rank;
+ document.getElementById("summary").textContent="You completed the foundations unit: positions, defense, offense, rotations, rules, serving, and team responsibilities.";
+ scrollTo(0,0)
+}
+function goHome(){
+ document.getElementById("lesson").classList.add("hidden");
+ document.getElementById("final").classList.add("hidden");
+ document.getElementById("leaderboard").classList.add("hidden");
+ document.getElementById("home").classList.remove("hidden");
+ renderGrid();scrollTo(0,0);
+}
+function escapeHtml(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function showLeaderboard(){
+ profiles=loadProfiles();
+ const board=Object.values(profiles).filter(p=>p&&p.name).map(p=>({...p,pct:p.attempted?Math.round(p.correct/p.attempted*100):0,missions:Object.keys(p.done||{}).length})).sort((a,b)=>b.score-a.score||b.pct-a.pct||b.missions-a.missions);
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("lesson").classList.add("hidden");
+ document.getElementById("final").classList.add("hidden");
+ document.getElementById("leaderboard").classList.remove("hidden");
+ document.getElementById("leaderRows").innerHTML=board.length?board.map((p,i)=>`<div class="leader-row"><div class="leader-rank">${i+1}</div><div><div class="leader-name">${escapeHtml(p.name)}</div><div class="tiny">${p.missions}/8 missions • ${p.pct}% accuracy</div></div><div class="leader-score">${p.score} IQ</div></div>`).join(""):'<div class="readcard"><p>No player scores saved yet.</p></div>';
+ scrollTo(0,0);
+}
+let resetArmed=false;
+let resetTimer=null;
+function resetProgress(){
+ const btn=document.getElementById("resetBtn");
+ const status=document.getElementById("nameStatus");
+
+ if(!state.name){
+   status.textContent="Lock in a player name before resetting.";
+   return;
+ }
+
+ // Avoid browser confirm() dialogs, which can be blocked inside previews.
+ if(!resetArmed){
+   resetArmed=true;
+   btn.textContent="⚠ CLICK AGAIN TO CONFIRM RESET";
+   status.textContent="Click RESET again to erase "+state.name+"'s score and mastered missions.";
+   clearTimeout(resetTimer);
+   resetTimer=setTimeout(()=>{
+     resetArmed=false;
+     btn.textContent="↻ RESET THIS PLAYER";
+     status.textContent="";
+   },5000);
+   return;
+ }
+
+ clearTimeout(resetTimer);
+ resetArmed=false;
+
+ const nm=state.name;
+
+ // Replace the active player's state with a truly blank profile.
+ state=blankState(nm);
+ profiles=loadProfiles();
+ profiles[keyFor(nm)]=JSON.parse(JSON.stringify(state));
+ saveProfiles(profiles);
+ localStorage.setItem(ACTIVE_KEY,nm);
+
+ // Remove legacy data from earlier versions.
+ localStorage.removeItem("vbiq_unit1");
+
+ // Clear all live lesson/activity state as well.
+ current=null;
+ qi=0;
+ moduleCorrect=0;
+ locked=false;
+ currentChoices=[];
+ activityDone=false;
+ activityState=null;
+
+ // Force every visible score/progress/completion element back to zero.
+ document.getElementById("lesson").innerHTML="";
+ document.getElementById("final").classList.add("hidden");
+ document.getElementById("leaderboard").classList.add("hidden");
+ document.getElementById("home").classList.remove("hidden");
+ document.getElementById("score").textContent="0";
+ document.getElementById("overallFill").style.width="0%";
+ btn.textContent="↻ RESET THIS PLAYER";
+
+ // Rebuild the academy map FROM THE BLANK STATE, removing MASTERED badges.
+ renderGrid();
+
+ status.textContent="✓ RESET COMPLETE: 0 IQ and 0 mastered missions.";
+ showWelcome(nm+" is reset!","Fresh court. Fresh score. All eight missions are open again.");
+ scrollTo(0,0);
+}
+let clearArmed=false;
+function clearProfiles(){
+ const btn=document.getElementById("clearProfilesBtn");
+ if(!clearArmed){
+   clearArmed=true;
+   btn.textContent="⚠ CLICK AGAIN TO CLEAR ALL";
+   setTimeout(()=>{clearArmed=false;btn.textContent="CLEAR ALL LOCAL PLAYERS";},5000);
+   return;
+ }
+ clearArmed=false;
+ localStorage.removeItem(PROFILE_KEY);
+ localStorage.removeItem(ACTIVE_KEY);
+ localStorage.removeItem("vbiq_unit1");
+ profiles={};activeName="";state=blankState("");
+ document.getElementById("name").value="";
+ document.getElementById("nameStatus").textContent="All local player profiles cleared.";
+ document.getElementById("welcomeCard").classList.remove("show");
+ btn.textContent="CLEAR ALL LOCAL PLAYERS";
+ updateTop();showLeaderboard();
+}
+document.getElementById("lockNameBtn").addEventListener("click",saveName);
+document.getElementById("name").addEventListener("keydown",e=>{if(e.key==="Enter")saveName()});
+document.getElementById("leaderboardBtn").addEventListener("click",showLeaderboard);
+document.getElementById("resetBtn").addEventListener("click",resetProgress);
+document.getElementById("closeLeaderboardBtn").addEventListener("click",goHome);
+document.getElementById("clearProfilesBtn").addEventListener("click",clearProfiles);
+
+renderGrid();
+if(state.name) showWelcome("Welcome back, "+state.name+"!","Your saved academy progress is loaded.");
+</script>
+</body></html>
